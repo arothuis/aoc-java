@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTest {
-    private String PUZZLE_INPUT = PuzzleInput.getFromFile("2023", "01");
-    private String EXAMPLE_A_INPUT = PuzzleInput.getFromFile("2023", "01-exampleA");
-    private String EXAMPLE_B_INPUT = PuzzleInput.getFromFile("2023", "01-exampleB");
+    private final String PUZZLE_INPUT = PuzzleInput.getFromFile("2023", "01");
+    private final String EXAMPLE_A_INPUT = PuzzleInput.getFromFile("2023", "01-exampleA");
+    private final String EXAMPLE_B_INPUT = PuzzleInput.getFromFile("2023", "01-exampleB");
 
     @Test
     void exampleA() {
@@ -35,6 +35,6 @@ public class SolutionTest {
     void solutionB() {
         var day = new Solution();
         var solution = day.solveB(PUZZLE_INPUT);
-        assertEquals(1783, solution);
+        assertEquals(54578, solution);
     }
 }
