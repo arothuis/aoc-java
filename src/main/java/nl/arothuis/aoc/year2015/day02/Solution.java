@@ -3,6 +3,7 @@ package nl.arothuis.aoc.year2015.day02;
 import nl.arothuis.aoc.core.PuzzleSolution;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class Solution implements PuzzleSolution<Integer, Integer> {
     @Override
@@ -34,10 +35,11 @@ public class Solution implements PuzzleSolution<Integer, Integer> {
     }
 
     public int calculateSmallestPerimeter(int l, int w, int h) {
-        int[] args = new int[]{l, w, h};
-        Arrays.sort(args);
-
-        return args[0] * 2 + args[1] * 2;
+        return IntStream.of(l, w, h)
+                .sorted()
+                .limit(2L)
+                .map(n -> n * 2)
+                .sum();
     }
 
     public int calculateVolume(int l, int w, int h) {
