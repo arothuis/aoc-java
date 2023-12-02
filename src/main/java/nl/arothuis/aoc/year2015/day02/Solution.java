@@ -39,6 +39,7 @@ public class Solution implements PuzzleSolution<Integer, Integer> {
 
         return args[0] * 2 + args[1] * 2;
     }
+
     public int calculateVolume(int l, int w, int h) {
         return l * w * h;
     }
