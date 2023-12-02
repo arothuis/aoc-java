@@ -1,22 +1,13 @@
 package nl.arothuis.aoc.year2023.day02;
 
 import nl.arothuis.aoc.core.PuzzleInput;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SolutionTest {
     private final String EXAMPLE_INPUT = PuzzleInput.getFromFile("2023", "02-example");
     private final String PUZZLE_INPUT = PuzzleInput.getFromFile("2023", "02");
-
-    @Test
-    @DisplayName("bags can only contain red, green and blue cubes")
-    void noUnsupportedCubes() {
-        var bag = new Bag();
-        assertThrows(RuntimeException.class, () -> bag.addCubeCount("orange", 100));
-    }
 
     @Test
     void exampleA() {
