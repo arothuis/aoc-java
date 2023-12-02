@@ -13,7 +13,7 @@ public interface PuzzleInput {
         try {
             return Files.readString(Paths.get(resource.toURI()));
         } catch (Exception e) {
-            throw new RuntimeException("Cannot read file", e);
+            throw new RuntimeException("Cannot read file: " + filePath, e);
         }
     }
 }
