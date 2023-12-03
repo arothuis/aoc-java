@@ -3,7 +3,6 @@ package nl.arothuis.aoc.year2023.day01;
 import nl.arothuis.aoc.core.PuzzleSolution;
 
 import java.util.Arrays;
-import java.util.Set;
 import java.util.function.BiFunction;
 
 public class Solution implements PuzzleSolution<Integer, Integer> {
