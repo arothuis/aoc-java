@@ -7,8 +7,6 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 public class Solution implements PuzzleSolution<Integer, Integer> {
-    public static final Set<Character> NUMBERS = Set.of('1', '2', '3', '4', '5', '6', '7', '8', '9', '0');
-
     @Override
     public Integer solveA(String input) {
         return Arrays.stream(input.split("\n"))
@@ -46,11 +44,11 @@ public class Solution implements PuzzleSolution<Integer, Integer> {
     }
 
     private int digitToInt(char c, String _unused) {
-        return NUMBERS.contains(c) ? Character.getNumericValue(c) : 0;
+        return Character.isDigit(c) ? Character.getNumericValue(c) : 0;
     }
 
     private int digitAndTextToInt(char c, String substring) {
-        return NUMBERS.contains(c) ? Character.getNumericValue(c)
+        return Character.isDigit(c) ? Character.getNumericValue(c)
                 : substring.contains("one") ? 1
                 : substring.contains("two") ? 2
                 : substring.contains("three") ? 3
