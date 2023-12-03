@@ -1,12 +1,9 @@
 package nl.arothuis.aoc.year2023.day03;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class Schematic {
-    private final List<EnginePart> engineParts = new ArrayList<>();
+    private final Map<Connector, List<Integer>> connections = new HashMap<>();
 
     public static Schematic fromString(String input) {
         var schematic = new Schematic();
@@ -21,7 +18,6 @@ public class Schematic {
 
             for (int column = 0; column < columns.length; column++) {
                 char cursor = columns[column].charAt(0);
-
                 if (Character.isDigit(cursor)) {
                     if (context.isEmpty()) {
                         startColumn = column;
@@ -36,11 +32,12 @@ public class Schematic {
                     continue;
                 }
 
-                Optional<Connector> connector = findConnector(lines, startLine, startColumn, context.length());
-                if (connector.isPresent()) {
-                    schematic.engineParts.add(new EnginePart(Integer.parseInt(context.toString()), connector.get()));
-                }
-                context = new StringBuilder();
+                findConnector(lines, startLine, startColumn, context.length())
+                        .ifPresent(connector -> schematic.connections
+                                .computeIfAbsent(connector, key -> new ArrayList<>())
+                                .add(Integer.parseInt(context.toString())));
+
+                context.setLength(0);
             }
         }
 
@@ -48,16 +45,13 @@ public class Schematic {
     }
 
     private static Optional<Connector> findConnector(String[] lines, int line, int start, int length) {
-        for (int row = line - 1; row <= line + 1; row++) {
-            if (row < 0 || row >= lines.length) {
-                continue;
-            }
+        var rowStart = Math.max(line - 1, 0);
+        var rowEnd = Math.min(line + 1, lines.length - 1);
+        var colStart = Math.max(start - 1, 0);
+        var colEnd = Math.min(start + length, lines[0].length() - 1);
 
-            for (int column = start - 1; column < start + length + 1; column++) {
-                if (column < 0 || column >= lines[0].length()) {
-                    continue;
-                }
-
+        for (int row = rowStart; row <= rowEnd; row++) {
+            for (int column = colStart; column <= colEnd; column++) {
                 char type = lines[row].charAt(column);
                 if (type != '.' && !Character.isDigit(type)) {
                     return Optional.of(new Connector(type, row, column));
@@ -69,24 +63,15 @@ public class Schematic {
     }
 
     public Integer sumConnectedEnginePartNumbers() {
-        return this.engineParts.stream().mapToInt(EnginePart::partNumber).sum();
-    }
-
-    public Integer sumGearRatios() {
-        return this.engineParts.stream().filter(part -> part.connector().type() == '*')
-                .collect(Collectors.groupingBy(
-                        EnginePart::connector,
-                        Collectors.mapping(EnginePart::partNumber, Collectors.toList())
-                ))
-                .values().stream()
-                .filter(parts -> parts.size() == 2)
-                .mapToInt(parts -> parts.stream().reduce((a, b) -> a * b).get())
+        return this.connections.values().stream()
+                .flatMapToInt(ns -> ns.stream().mapToInt(Integer::intValue))
                 .sum();
     }
 
-    private record Connector(char type, int line, int column) {
-    }
-
-    private record EnginePart(int partNumber, Connector connector) {
+    public Integer sumGearRatios() {
+        return this.connections.values().stream()
+                .filter(ps -> ps.size() == 2)
+                .mapToInt(ps -> ps.get(0) * ps.get(1))
+                .sum();
     }
 }
