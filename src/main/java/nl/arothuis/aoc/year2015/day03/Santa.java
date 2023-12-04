@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Santa {
-    private List<Coordinate> history = new ArrayList<>();
+    private final List<Coordinate> history = new ArrayList<>();
 
     public Santa() {
         history.add(new Coordinate(0, 0));
@@ -16,7 +16,7 @@ public class Santa {
         var current = history.get(history.size() - 1);
 
         var next = switch (step) {
-            case "^" -> new Coordinate(current.x(), current.y()- 1);
+            case "^" -> new Coordinate(current.x(), current.y() - 1);
             case ">" -> new Coordinate(current.x() + 1, current.y());
             case "v" -> new Coordinate(current.x(), current.y() + 1);
             case "<" -> new Coordinate(current.x() - 1, current.y());

@@ -7,7 +7,7 @@ public class Solution implements PuzzleSolution<Integer, Integer> {
     public Integer solveA(String input) {
         var santa = new Santa();
 
-        for (String step: input.split("")) {
+        for (String step : input.split("")) {
             santa.move(step);
         }
 
@@ -20,7 +20,7 @@ public class Solution implements PuzzleSolution<Integer, Integer> {
         var robot = new Santa();
         var active = santa;
 
-        for (String step: input.split("")) {
+        for (String step : input.split("")) {
             active.move(step);
             active = active.equals(santa) ? robot : santa;
         }
