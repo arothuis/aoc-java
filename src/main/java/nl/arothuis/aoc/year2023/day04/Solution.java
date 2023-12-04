@@ -2,7 +2,10 @@ package nl.arothuis.aoc.year2023.day04;
 
 import nl.arothuis.aoc.core.PuzzleSolution;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Solution implements PuzzleSolution<Integer, Integer> {
