@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTest {
-    private String PUZZLE_INPUT = PuzzleInput.getFromFile("2015", "03");
+    private final String PUZZLE_INPUT = PuzzleInput.getFromFile("2015", "03");
 
     static Stream<Arguments> exampleAStepsToVisitedHouses() {
         return Stream.of(

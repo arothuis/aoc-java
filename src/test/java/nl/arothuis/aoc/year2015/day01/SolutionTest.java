@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SolutionTest {
-    private String PUZZLE_INPUT = PuzzleInput.getFromFile("2015", "01");
+    private final String PUZZLE_INPUT = PuzzleInput.getFromFile("2015", "01");
 
     @Test
     void solutionA() {

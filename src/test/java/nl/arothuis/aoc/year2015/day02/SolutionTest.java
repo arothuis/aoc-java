@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTest {
-    private String PUZZLE_INPUT = PuzzleInput.getFromFile("2015", "02");
+    private final String PUZZLE_INPUT = PuzzleInput.getFromFile("2015", "02");
 
     @Test
     void surfaceArea() {
