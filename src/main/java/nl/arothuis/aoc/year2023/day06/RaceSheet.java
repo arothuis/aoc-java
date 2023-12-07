@@ -6,6 +6,7 @@ import java.util.List;
 public class RaceSheet {
     private final List<Race> races = new ArrayList<>();
     private Race actualRace;
+
     public static RaceSheet fromString(String input) {
         var sheet = new RaceSheet();
 
@@ -37,12 +38,13 @@ public class RaceSheet {
 
     public long calculateOptions(Race race) {
         long t = race.timeAllowed();
-        long d = race.currentRecord();
+        long x = race.currentRecord();
 
-        double h1 = Math.floor((t - Math.sqrt(Math.pow(-t, 2) - 4 * d)) / 2);
-        double h2 = Math.ceil((t + Math.sqrt(Math.pow(-t, 2) - 4 * d)) / 2);
+        double D = Math.sqrt(Math.pow(-t, 2) - 4 * x);
+        double h1 = Math.floor((t - D) / 2);
+        double h2 = Math.ceil((t + D) / 2);
 
-        return (int) (h2 - h1) - 1;
+        return (long) (h2 - h1) - 1;
     }
 
     private long bruteforceOptions(Race race) {
