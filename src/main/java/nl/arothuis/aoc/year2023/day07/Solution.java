@@ -1,16 +1,32 @@
 package nl.arothuis.aoc.year2023.day07;
 
 import nl.arothuis.aoc.core.PuzzleSolution;
-import nl.arothuis.aoc.year2023.day06.RaceSheet;
 
-public class Solution implements PuzzleSolution<Integer, Integer> {
+import java.util.List;
+import java.util.stream.IntStream;
+
+public class Solution implements PuzzleSolution<Long, Long> {
     @Override
-    public Integer solveA(String input) {
-        return 1;
+    public Long solveA(String input) {
+        List<Hand> hands = input.lines()
+                .map(hand -> Hand.fromString(hand, Card::fromString))
+                .sorted()
+                .toList();
+
+        return IntStream.range(0, hands.size())
+                .mapToLong(i -> hands.get(i).calculateScore(i + 1))
+                .sum();
     }
 
     @Override
-    public Integer solveB(String input) {
-        return 1;
+    public Long solveB(String input) {
+        List<Hand> hands = input.lines()
+                .map(hand -> Hand.fromString(hand, Card::fromStringWithJokers))
+                .sorted()
+                .toList();
+
+        return IntStream.range(0, hands.size())
+                .mapToLong(i -> hands.get(i).calculateScore(i + 1))
+                .sum();
     }
 }
