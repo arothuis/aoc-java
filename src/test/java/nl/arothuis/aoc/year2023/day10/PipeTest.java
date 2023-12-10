@@ -11,18 +11,6 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PipeTest {
-    @ParameterizedTest
-    @DisplayName("can connect to other pipe")
-    @MethodSource("pipeConnectionExamples")
-    void canConnect(String pipeA, int bx, int by, String pipeB, boolean expected) {
-        Pipe a = new Pipe(new Coordinates(0, 0), pipeA);
-        Pipe b = new Pipe(new Coordinates(bx, by), pipeB);
-
-        boolean actual = b.canConnectTo(a);
-
-        assertEquals(expected, actual);
-    }
-
     static Stream<Arguments> pipeConnectionExamples() {
         return Stream.of(
                 Arguments.of("-", 1, 0, ".", false),
@@ -48,5 +36,17 @@ public class PipeTest {
                 Arguments.of("|", 0, -1, "S", true),
                 Arguments.of("S", 0, -1, "-", false)
         );
+    }
+
+    @ParameterizedTest
+    @DisplayName("can connect to other pipe")
+    @MethodSource("pipeConnectionExamples")
+    void canConnect(String pipeA, int bx, int by, String pipeB, boolean expected) {
+        Tile a = new Tile(new Coordinates(0, 0), pipeA);
+        Tile b = new Tile(new Coordinates(bx, by), pipeB);
+
+        boolean actual = b.canConnectTo(a);
+
+        assertEquals(expected, actual);
     }
 }

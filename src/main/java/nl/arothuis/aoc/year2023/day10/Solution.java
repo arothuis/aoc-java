@@ -11,6 +11,6 @@ public class Solution implements PuzzleSolution<Integer, Integer> {
 
     @Override
     public Integer solveB(String input) {
-        return -1;
+        return PipeSystem.fromString(input).countEnclosedTiles();
     }
 }

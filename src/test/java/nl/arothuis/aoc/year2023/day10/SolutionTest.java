@@ -36,13 +36,13 @@ public class SolutionTest {
     void exampleB() {
         var day = new Solution();
         var solution = day.solveB(EXAMPLE_B_INPUT);
-        assertEquals(-1, solution);
+        assertEquals(4, solution);
     }
 
     @Test
     void solutionB() {
         var day = new Solution();
         var solution = day.solveB(PUZZLE_INPUT);
-        assertEquals(-1, solution);
+        assertEquals(467, solution);
     }
 }
