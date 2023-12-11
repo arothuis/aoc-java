@@ -6,8 +6,8 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class PipeSystem {
-    private Coordinates start;
     private final Map<Coordinates, Tile> tileMap = new HashMap<>();
+    private Coordinates start;
 
     public static PipeSystem fromString(String input) {
         var system = new PipeSystem();
