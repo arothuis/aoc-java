@@ -2,16 +2,14 @@ package nl.arothuis.aoc.year2023.day12;
 
 import nl.arothuis.aoc.core.PuzzleSolution;
 
-public class Solution implements PuzzleSolution<Integer, Integer> {
+public class Solution implements PuzzleSolution<Long, Long> {
     @Override
-    public Integer solveA(String input) {
-        SpringRecords.fromString(input);
-
-        return -1;
+    public Long solveA(String input) {
+        return SpringRecords.fromString(input).countAllPossibleArrangements();
     }
 
     @Override
-    public Integer solveB(String input) {
-        return -1;
+    public Long solveB(String input) {
+        return SpringRecords.fromString(input).countAllPossibleArrangementsUnfoldedBy(5);
     }
 }

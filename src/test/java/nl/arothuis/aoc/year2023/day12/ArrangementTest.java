@@ -1,23 +1,34 @@
 package nl.arothuis.aoc.year2023.day12;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
-import java.util.Set;
+import java.util.HashMap;
 import java.util.stream.Stream;
 
-public class ArrangementTest {
-    @Test
-    @DisplayName("calculates only valid arrangement for simple cases")
-    void options() {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+public class ArrangementTest {
+    static Stream<Arguments> possibleArrangements() {
+        return Stream.of(
+                Arguments.of("???.### 1,1,3", 1),
+                Arguments.of(".??..??...?##. 1,1,3", 4),
+                Arguments.of("?#?#?#?#?#?#?#? 1,3,1,6", 1),
+                Arguments.of("????.#...#... 4,1,1", 1),
+                Arguments.of("????.######..#####. 1,6,5", 4),
+                Arguments.of("?###???????? 3,2,1", 10)
+        );
     }
 
-    static Stream<Arguments> simpleCases() {
-        return Stream.of(
-                Arguments.of("???.### 1,1,3", Set.of("#.#.###"))
-        );
+    @ParameterizedTest
+    @DisplayName("calculates amount of valid arrangements")
+    @MethodSource("possibleArrangements")
+    void options(String input, int expectedResult) {
+        var arrangement = ConditionRecord.fromString(input);
+        long result = arrangement.countPossibleArrangements(new HashMap<>());
+
+        assertEquals(expectedResult, result);
     }
 }

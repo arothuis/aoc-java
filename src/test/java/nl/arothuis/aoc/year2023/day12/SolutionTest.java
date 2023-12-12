@@ -13,20 +13,20 @@ public class SolutionTest {
     void exampleA() {
         var day = new Solution();
         var solution = day.solveA(EXAMPLE_INPUT);
-        assertEquals(-1, solution);
+        assertEquals(21, solution);
     }
 
     @Test
     void solutionA() {
         var day = new Solution();
         var solution = day.solveA(PUZZLE_INPUT);
-        assertEquals(-1, solution);
+        assertEquals(7251, solution);
     }
 
     @Test
     void solutionB() {
         var day = new Solution();
         var solution = day.solveB(PUZZLE_INPUT);
-        assertEquals(-1, solution);
+        assertEquals(2128386729962L, solution);
     }
 }
