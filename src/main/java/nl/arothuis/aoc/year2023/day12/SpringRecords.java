@@ -1,21 +1,29 @@
 package nl.arothuis.aoc.year2023.day12;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class SpringRecords {
-    private List<Arrangement> arrangements = new ArrayList<>();
+    private List<ConditionRecord> arrangements = new ArrayList<>();
 
     public static SpringRecords fromString(String input) {
         var records = new SpringRecords();
 
         records.arrangements = Arrays.stream(input.split("\n"))
-                .map(Arrangement::fromString)
+                .map(ConditionRecord::fromString)
                 .toList();
 
-        System.out.println(records.arrangements);
-
         return records;
+    }
+
+    public Long countAllPossibleArrangements() {
+        Map<String, Long> memo = new HashMap<>();
+        return arrangements.stream().mapToLong(arrangement -> arrangement.countPossibleArrangements(memo)).sum();
+    }
+
+    public Long countAllPossibleArrangementsUnfoldedBy(int times) {
+        Map<String, Long> memo = new HashMap<>();
+        return arrangements
+                .stream()
+                .mapToLong(arrangement -> arrangement.unfold(times).countPossibleArrangements(memo)).sum();
     }
 }
