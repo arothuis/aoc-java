@@ -13,15 +13,23 @@ public class SolutionTest {
     void exampleA() {
         var day = new Solution();
         var solution = day.solveA(EXAMPLE_INPUT);
-        assertEquals(-1L, solution);
+        assertEquals(405, solution);
     }
 
     @Test
     void solutionA() {
         var day = new Solution();
         var solution = day.solveA(PUZZLE_INPUT);
+        assertEquals(34100, solution);
+    }
+
+    @Test
+    void exampleB() {
+        var day = new Solution();
+        var solution = day.solveB(EXAMPLE_INPUT);
         assertEquals(-1L, solution);
     }
+
 
     @Test
     void solutionB() {

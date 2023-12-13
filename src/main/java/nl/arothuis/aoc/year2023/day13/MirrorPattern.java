@@ -5,20 +5,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public record Pattern(List<String> rows, List<String> columns) {
-    public static Pattern fromString(String input) {
+public record MirrorPattern(List<String> rows, List<String> columns) {
+    public static MirrorPattern fromString(String input) {
         List<String> rows = Arrays.asList(input.split("\n"));
         List<String> columns = new ArrayList<>(
                 Collections.nCopies(rows.get(0).length(), "")
         );
 
         for (String row : rows) {
-            for (int c = 0; c < rows.size(); c++) {
-                columns.set(c, columns.get(c) + row.charAt(c));
+            for (int c = 0; c < row.length(); c++) {
+                columns.set(c, row.charAt(c) + columns.get(c));
             }
         }
 
-        return new Pattern(rows, columns);
+        return new MirrorPattern(rows, columns);
     }
 
     public int findMirror(List<String> line) {
@@ -36,6 +36,12 @@ public record Pattern(List<String> rows, List<String> columns) {
     }
 
     private boolean isPerfectMirror(List<String> line, int i) {
+        for (int j = 1; i - j > 0 && i + j < line.size(); j++) {
+            if (!line.get(i - j - 1).equals(line.get(i + j))) {
+                return false;
+            }
+        }
+
         return true;
     }
 }
