@@ -18,7 +18,9 @@ public class ValleyOfMirrors {
         );
     }
 
-    public Long sumOfAllMirrors() {
-        return patterns.stream().mapToLong(p -> p.findMirror(p.columns()) + 100L * p.findMirror(p.rows())).sum();
+    public Long sumOfAllMirrors(int smudges) {
+        return patterns.stream()
+                .mapToLong(p -> p.findMirror(p.columns(), smudges) + 100L * p.findMirror(p.rows(), smudges))
+                .sum();
     }
 }

@@ -21,27 +21,24 @@ public record MirrorPattern(List<String> rows, List<String> columns) {
         return new MirrorPattern(rows, columns);
     }
 
-    public int findMirror(List<String> line) {
-        for (int i = 1; i < line.size(); i++) {
-            if (!line.get(i - 1).equals(line.get(i))) {
-                continue;
+    public int findMirror(List<String> line, int smudges) {
+        for (int mirror = 1; mirror < line.size(); mirror++) {
+            int smudgesFound = 0;
+
+            for (int r = 1; mirror - r >= 0 && mirror + r - 1 < line.size(); r++) {
+                var before = line.get(mirror - r);
+                var after = line.get(mirror + r - 1);
+
+                for (int field = 0; field < before.length(); field++) {
+                    smudgesFound += before.charAt(field) != after.charAt(field) ? 1 : 0;
+                }
             }
 
-            if (isPerfectMirror(line, i)) {
-                return i;
+            if (smudgesFound == smudges) {
+                return mirror;
             }
         }
 
         return 0;
-    }
-
-    private boolean isPerfectMirror(List<String> line, int i) {
-        for (int j = 1; i - j > 0 && i + j < line.size(); j++) {
-            if (!line.get(i - j - 1).equals(line.get(i + j))) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }
