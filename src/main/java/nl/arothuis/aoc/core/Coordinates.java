@@ -9,7 +9,7 @@ public record Coordinates(int x, int y) {
         return new Coordinates(x + other.x, y + other.y);
     }
 
-    public boolean isWithin(Coordinates start, Coordinates end) {
-        return x >= start.x && y >= start.y && x <= end.x && y <= end.y;
+    public boolean isWithin(Coordinates start, Coordinates endExclusive) {
+        return x >= start.x && y >= start.y && x < endExclusive.x && y < endExclusive.y;
     }
 }

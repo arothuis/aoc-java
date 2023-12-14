@@ -11,6 +11,6 @@ public class Solution implements PuzzleSolution<Long, Long> {
 
     @Override
     public Long solveB(String input) {
-        return -1L;
+        return RockPositions.fromString(input).runCycles(1000000000L);
     }
 }

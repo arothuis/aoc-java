@@ -2,7 +2,9 @@ package nl.arothuis.aoc.year2023.day14;
 
 import nl.arothuis.aoc.core.Coordinates;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class RockPositions {
@@ -33,6 +35,39 @@ public class RockPositions {
         return rockPositions;
     }
 
+    public Long runCycles(long amount) {
+        Map<Set<Coordinates>, Integer> seen = new HashMap<>();
+
+        int cycles = 0;
+        while (true) {
+            cycles++;
+            cycle();
+
+            if (seen.containsKey(round)) {
+                break;
+            }
+
+            seen.put(new HashSet<>(round), cycles);
+        }
+
+        int seenBefore = seen.get(round);
+        int eventualIndex = (1000000000 - seenBefore) % (cycles - seenBefore) + seenBefore;
+        var eventualRound = seen.entrySet().stream()
+                .filter(e -> e.getValue().equals(eventualIndex))
+                .findFirst()
+                .get()
+                .getKey();
+
+        return countLoadOnNorthernBeams(eventualRound);
+    }
+
+    private void cycle() {
+        tilt(new Coordinates(0, -1));
+        tilt(new Coordinates(-1, 0));
+        tilt(new Coordinates(0, 1));
+        tilt(new Coordinates(1, 0));
+    }
+
     public RockPositions tilt(Coordinates direction) {
         while (canRollAnyRock(direction)) {
             rollRocks(direction);
@@ -42,7 +77,11 @@ public class RockPositions {
     }
 
     public long countLoadOnNorthernBeams() {
-        return round.stream().mapToLong(rock -> size.subtract(rock).y()).sum();
+        return countLoadOnNorthernBeams(round);
+    }
+
+    private long countLoadOnNorthernBeams(Set<Coordinates> rs) {
+        return rs.stream().mapToLong(rock -> size.y() - rock.y()).sum();
     }
 
     private void rollRocks(Coordinates direction) {

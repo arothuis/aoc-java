@@ -16,7 +16,9 @@ public class CoordinatesTest {
                 Arguments.of(-1, 0),
                 Arguments.of(0, -1),
                 Arguments.of(4, 0),
+                Arguments.of(3, 0),
                 Arguments.of(0, 4),
+                Arguments.of(0, 3),
                 Arguments.of(-1, 4),
                 Arguments.of(4, -1)
 
