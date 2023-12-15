@@ -27,7 +27,7 @@ public class SolutionTest {
     void exampleB() {
         var day = new Solution();
         var solution = day.solveB(EXAMPLE_INPUT);
-        assertEquals(-1L, solution);
+        assertEquals(145, solution);
     }
 
 
@@ -35,6 +35,6 @@ public class SolutionTest {
     void solutionB() {
         var day = new Solution();
         var solution = day.solveB(PUZZLE_INPUT);
-        assertEquals(-1L, solution);
+        assertEquals(247763, solution);
     }
 }
