@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LensConfiguration {
-    private Map<Integer, List<Lens>> boxes = new HashMap<>();
+    private final Map<Integer, List<Lens>> boxes = new HashMap<>();
 
     public static LensConfiguration fromString(String input) {
         LensConfiguration configuration = new LensConfiguration();
