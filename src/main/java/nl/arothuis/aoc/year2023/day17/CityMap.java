@@ -29,7 +29,7 @@ public class CityMap {
         return map;
     }
 
-    public int shortestDistance() {
+    public int shortestDistance(int minSteps, int maxSteps) {
         Coordinates end = size.subtract(new Coordinates(1, 1));
         Set<Tile> seenTiles = new HashSet<>();
         Queue<Step> options = new PriorityQueue<>();
@@ -47,16 +47,12 @@ public class CityMap {
             seenTiles.add(current.tile());
 
             for (var direction : List.of(northwards(), eastwards(), southwards(), westwards())) {
-                if (direction.equals(current.tile().direction().inverse())) {
+                if (!current.isAllowedToGoTowards(direction, minSteps, maxSteps)) {
                     continue;
                 }
 
                 Tile nextTile = current.goTowards(direction);
                 if (!locations.containsKey(nextTile.position())) {
-                    continue;
-                }
-
-                if (nextTile.steps() > 3) {
                     continue;
                 }
 

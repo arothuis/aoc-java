@@ -5,11 +5,11 @@ import nl.arothuis.aoc.core.PuzzleSolution;
 public class Solution implements PuzzleSolution<Integer, Integer> {
     @Override
     public Integer solveA(String input) {
-        return CityMap.fromString(input).shortestDistance();
+        return CityMap.fromString(input).shortestDistance(0, 3);
     }
 
     @Override
     public Integer solveB(String input) {
-        return -1;
+        return CityMap.fromString(input).shortestDistance(4, 10);
     }
 }

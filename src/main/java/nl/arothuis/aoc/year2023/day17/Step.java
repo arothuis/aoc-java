@@ -16,4 +16,14 @@ public record Step(Integer heatLoss, Tile tile) implements Comparable<Step> {
     public int compareTo(Step other) {
         return heatLoss.compareTo(other.heatLoss);
     }
+
+    public boolean hasDirection(Coordinates otherDirection) {
+        return tile.direction().equals(otherDirection);
+    }
+
+    public boolean isAllowedToGoTowards(Coordinates direction, int minSteps, int maxSteps) {
+        return (hasDirection(direction) || hasDirection(Coordinates.origin()) || tile.steps() >= minSteps)
+                && (!hasDirection(direction.inverse()))
+                && !(hasDirection(direction) && tile.steps() + 1 > maxSteps);
+    }
 }

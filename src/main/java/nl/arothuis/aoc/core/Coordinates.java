@@ -1,6 +1,10 @@
 package nl.arothuis.aoc.core;
 
 public record Coordinates(int x, int y) {
+    public static Coordinates origin() {
+        return new Coordinates(0, 0);
+    }
+
     public static Coordinates northwards() {
         return new Coordinates(0, -1);
     }
