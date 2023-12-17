@@ -1,14 +1,13 @@
 package nl.arothuis.aoc.year2023.day16;
 
 import nl.arothuis.aoc.core.Coordinates;
-import nl.arothuis.aoc.core.Pair;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Contraption {
-    private final Map<Coordinates, Obstacle> grid = new HashMap<>();
-    private final Set<Pair<Coordinates, Coordinates>> seenBeams = new LinkedHashSet<>();
-    private final Set<Coordinates> energized = new HashSet<>();
+    private final Map<Coordinates, String> grid = new HashMap<>();
+    private final Set<Beam> energizedTiles = new LinkedHashSet<>();
     private Coordinates size;
 
     public static Contraption fromString(String input) {
@@ -26,7 +25,7 @@ public class Contraption {
                 }
 
                 Coordinates coords = new Coordinates(x, y);
-                contraption.grid.put(coords, new Obstacle(coords, tiles[x]));
+                contraption.grid.put(coords, tiles[x]);
             }
         }
 
@@ -36,56 +35,45 @@ public class Contraption {
     }
 
     public int maximizeLight() {
-        List<Pair<Coordinates, Coordinates>> startPositions = new ArrayList<>();
+        List<Beam> origins = new ArrayList<>();
 
         for (var x = 0; x < size.x(); x++) {
-            startPositions.add(new Pair<>(new Coordinates(x, 0), new Coordinates(0, 1)));
-            startPositions.add(new Pair<>(new Coordinates(x, size.y() - 1), new Coordinates(0, -1)));
+            origins.add(Beam.southFrom(x, 0));
+            origins.add(Beam.northFrom(x, size.y() - 1));
         }
 
         for (var y = 0; y < size.y(); y++) {
-            startPositions.add(new Pair<>(new Coordinates(0, y), new Coordinates(1, 0)));
-            startPositions.add(new Pair<>(new Coordinates(size.x() - 1, y), new Coordinates(-1, 0)));
+            origins.add(Beam.eastFrom(0, y));
+            origins.add(Beam.westFrom(size.x() - 1, y));
         }
 
         int max = 0;
 
-        for (var position : startPositions) {
-            seenBeams.clear();
-            energized.clear();
-
-            int energizedTiles = shineLight(position.left(), position.right()).size();
-            max = Math.max(max, energizedTiles);
+        for (var origin : origins) {
+            energizedTiles.clear();
+            int tileCount = shineLight(origin).size();
+            max = Math.max(max, tileCount);
         }
 
         return max;
     }
 
-    public Set<Coordinates> shineLight() {
-        return shineLight(new Coordinates(0, 0), new Coordinates(1, 0));
-    }
+    public Set<Coordinates> shineLight(Beam beam) {
+        while (beam.fitsIn(size) && !energizedTiles.contains(beam)) {
+            energizedTiles.add(beam);
 
-    public Set<Coordinates> shineLight(Coordinates from, Coordinates direction) {
-        Coordinates next = from;
-        var beam = new Pair<>(next, direction);
+            if (grid.containsKey(beam.position())) {
+                List<Beam> beams = beam.changeDirection(grid.get(beam.position()));
+                beam = beams.get(0);
 
-        while (next.isWithin(new Coordinates(0, 0), size) && !seenBeams.contains(beam)) {
-            seenBeams.add(beam);
-            energized.add(next);
-
-            if (grid.containsKey(next)) {
-                List<Coordinates> directions = grid.get(next).changeDirection(direction);
-                direction = directions.get(0);
-
-                if (directions.size() == 2) {
-                    shineLight(next, directions.get(1));
+                if (beams.size() == 2) {
+                    shineLight(beams.get(1).next());
                 }
             }
 
-            next = next.add(direction);
-            beam = new Pair<>(next, direction);
+            beam = beam.next();
         }
 
-        return energized;
+        return energizedTiles.stream().map(Beam::position).collect(Collectors.toSet());
     }
 }

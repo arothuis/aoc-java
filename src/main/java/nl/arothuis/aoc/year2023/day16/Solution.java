@@ -5,7 +5,7 @@ import nl.arothuis.aoc.core.PuzzleSolution;
 public class Solution implements PuzzleSolution<Integer, Integer> {
     @Override
     public Integer solveA(String input) {
-        return Contraption.fromString(input).shineLight().size();
+        return Contraption.fromString(input).shineLight(Beam.eastFrom(0, 0)).size();
     }
 
     @Override
