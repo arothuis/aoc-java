@@ -51,7 +51,7 @@ public class RockPositions {
         }
 
         int seenBefore = seen.get(round);
-        int eventualIndex = (1000000000 - seenBefore) % (cycles - seenBefore) + seenBefore;
+        int eventualIndex = (int) ((amount - seenBefore) % (cycles - seenBefore) + seenBefore);
         var eventualRound = seen.entrySet().stream()
                 .filter(e -> e.getValue().equals(eventualIndex))
                 .findFirst()

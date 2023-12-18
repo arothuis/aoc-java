@@ -51,7 +51,7 @@ public class GalaxyImage {
         return dx + extraCols * (growthFactor - 1) + dy + extraRows * (growthFactor - 1);
     }
 
-    private long countBetween(Collection<Integer> ns, int a, int b) {
+    private long countBetween(Collection<Integer> ns, long a, long b) {
         return ns.stream()
                 .filter(n -> n > Math.min(a, b) && n < Math.max(a, b))
                 .count();

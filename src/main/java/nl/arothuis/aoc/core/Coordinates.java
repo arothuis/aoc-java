@@ -1,6 +1,6 @@
 package nl.arothuis.aoc.core;
 
-public record Coordinates(int x, int y) {
+public record Coordinates(long x, long y) {
     public static Coordinates origin() {
         return new Coordinates(0, 0);
     }

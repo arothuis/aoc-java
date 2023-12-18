@@ -73,8 +73,8 @@ public class PipeSystem {
     }
 
     private Tile findConnection(Coordinates coords, Set<Tile> seen) {
-        int x = coords.x();
-        int y = coords.y();
+        long x = coords.x();
+        long y = coords.y();
 
         return Stream.of(getTile(x, y + 1), getTile(x + 1, y), getTile(x, y - 1), getTile(x - 1, y))
                 .filter(other -> !seen.contains(other) && getTile(x, y).canConnectTo(other))
@@ -82,7 +82,7 @@ public class PipeSystem {
                 .orElse(new Tile(new Coordinates(x, y), "."));
     }
 
-    private Tile getTile(int x, int y) {
+    private Tile getTile(long x, long y) {
         return tileMap.getOrDefault(new Coordinates(x, y), new Tile(new Coordinates(x, y), "."));
     }
 }

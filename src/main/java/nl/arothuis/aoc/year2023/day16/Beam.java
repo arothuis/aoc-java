@@ -5,19 +5,19 @@ import nl.arothuis.aoc.core.Coordinates;
 import java.util.List;
 
 public record Beam(Coordinates position, Coordinates direction) {
-    public static Beam northFrom(int x, int y) {
+    public static Beam northFrom(long x, long y) {
         return new Beam(new Coordinates(x, y), new Coordinates(0, -1));
     }
 
-    public static Beam southFrom(int x, int y) {
+    public static Beam southFrom(long x, long y) {
         return new Beam(new Coordinates(x, y), new Coordinates(0, 1));
     }
 
-    public static Beam westFrom(int x, int y) {
+    public static Beam westFrom(long x, long y) {
         return new Beam(new Coordinates(x, y), new Coordinates(-1, 0));
     }
 
-    public static Beam eastFrom(int x, int y) {
+    public static Beam eastFrom(long x, long y) {
         return new Beam(new Coordinates(x, y), new Coordinates(1, 0));
     }
 
@@ -30,8 +30,8 @@ public record Beam(Coordinates position, Coordinates direction) {
     }
 
     public List<Beam> changeDirection(String obstacle) {
-        int x = position.x();
-        int y = position.y();
+        long x = position.x();
+        long y = position.y();
 
         return switch (obstacle) {
             case "/" -> direction.x() > 0 ? List.of(Beam.northFrom(x, y))
