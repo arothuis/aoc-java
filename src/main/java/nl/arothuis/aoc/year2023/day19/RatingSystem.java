@@ -1,6 +1,8 @@
 package nl.arothuis.aoc.year2023.day19;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class RatingSystem {
@@ -19,5 +21,15 @@ public class RatingSystem {
 
     public Stream<Rating> streamAcceptedParts() {
         return ratings.stream().filter(workflow::evaluate);
+    }
+
+    public Long countAcceptedRatings() {
+        Map<String, Range> ranges = new HashMap<>();
+        ranges.put("x", new Range(1, 4000));
+        ranges.put("m", new Range(1, 4000));
+        ranges.put("a", new Range(1, 4000));
+        ranges.put("s", new Range(1, 4000));
+
+        return workflow.countAcceptedRatings("in", ranges);
     }
 }

@@ -10,6 +10,6 @@ public class Solution implements PuzzleSolution<Long, Long> {
 
     @Override
     public Long solveB(String input) {
-        return -1L;
+        return RatingSystem.fromString(input).countAcceptedRatings();
     }
 }

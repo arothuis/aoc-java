@@ -1,10 +1,6 @@
 package nl.arothuis.aoc.year2023.day19;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
+import java.util.*;
 
 public class Workflow {
     private final HashMap<String, Rule> rules = new HashMap<>();
@@ -21,19 +17,20 @@ public class Workflow {
             for (String expression : expressions) {
                 String[] fragments = expression.split(":");
 
-                Predicate<Rating> conditional = rating -> true;
+                String lhs = null;
+                Integer rhs = null;
+                Character op = null;
                 String target = fragments[0];
 
                 if (fragments.length > 1) {
                     var condition = fragments[0].split("[><]");
-                    var lhs = condition[0];
-                    var rhs = Integer.parseInt(condition[1]);
-                    var op = fragments[0].charAt(lhs.length());
+                    lhs = condition[0];
+                    rhs = Integer.parseInt(condition[1]);
+                    op = fragments[0].charAt(lhs.length());
                     target = fragments[1];
-                    conditional = rating -> op == '>' && rating.get(lhs) > rhs || op == '<' && rating.get(lhs) < rhs;
                 }
 
-                conditions.add(new Condition(conditional, target));
+                conditions.add(new Condition(lhs, op, rhs, target));
             }
 
             workflow.rules.put(label, new Rule(conditions));
@@ -51,5 +48,36 @@ public class Workflow {
         }
 
         return currentLabel.equals("A");
+    }
+
+    public Long countAcceptedRatings(String label, Map<String, Range> ranges) {
+        if (label.equals("A")) {
+            return ranges.values().stream().mapToLong(Range::sizeInclusive).reduce(1, (a, b) -> a * b);
+        }
+
+        if (label.equals("R")) {
+            return 0L;
+        }
+
+        return rules.get(label).conditions().stream()
+                .reduce(0L, (partialCount, condition) -> {
+                            Range range = ranges.get(condition.lhs());
+
+                            if (!condition.hasOp()) {
+                                return partialCount + countAcceptedRatings(condition.target(), new HashMap<>(ranges));
+                            }
+
+                            long rhs = condition.rhs();
+                            Range accept = condition.isGreaterThan() ? range.newStart(rhs + 1) : range.newEnd(rhs - 1);
+                            Range reject = condition.isGreaterThan() ? range.newEnd(rhs) : range.newStart(rhs);
+
+                            Map<String, Range> acceptedRanges = new HashMap<>(ranges);
+                            acceptedRanges.put(condition.lhs(), accept);
+                            ranges.put(condition.lhs(), reject);
+
+                            return partialCount + countAcceptedRatings(condition.target(), acceptedRanges);
+                        },
+                        Long::sum
+                );
     }
 }
