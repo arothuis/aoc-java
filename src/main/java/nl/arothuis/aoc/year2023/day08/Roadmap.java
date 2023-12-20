@@ -1,5 +1,7 @@
 package nl.arothuis.aoc.year2023.day08;
 
+import nl.arothuis.aoc.core.MathHelper;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,10 +39,6 @@ public record Roadmap(String route, Map<String, List<String>> map) {
         return map.keySet().stream()
                 .filter(pos -> pos.endsWith("A"))
                 .map(start -> traverse(start, pos -> pos.endsWith("Z")))
-                .reduce(1L, (a, b) -> (a * b) / gcd(a, b));
-    }
-
-    private long gcd(long a, long b) {
-        return b == 0 ? a : gcd(b, a % b);
+                .reduce(1L, MathHelper::lcm);
     }
 }

@@ -1,10 +1,12 @@
 package nl.arothuis.aoc.year2023.day20;
 
+import nl.arothuis.aoc.core.MathHelper;
+
 import java.util.*;
 
 public class ModuleConfiguration {
-    private Map<String, Module> modules = new HashMap<>();
-    private Map<String, List<String>> targets = new HashMap<>();
+    private final Map<String, Module> modules = new HashMap<>();
+    private final Map<String, List<String>> targets = new HashMap<>();
 
     public static ModuleConfiguration fromString(String input) {
         var configuration = new ModuleConfiguration();
@@ -16,23 +18,17 @@ public class ModuleConfiguration {
             var address = side[0].substring(1);
 
             for (String destination : destinations) {
-                var inputs = configuration.targets.getOrDefault(destination, new ArrayList<>());
-                inputs.add(address);
-                configuration.targets.put(destination, inputs);
+                configuration.targets.computeIfAbsent(destination, k -> new ArrayList<>()).add(address);
             }
 
             if (side[0].startsWith("&")) {
                 configuration.modules.put(address, new Conjunction(address, destinations));
                 conjunctions.add(address);
-                continue;
-            }
-
-            if (side[0].startsWith("%")) {
+            } else if (side[0].startsWith("%")) {
                 configuration.modules.put(address, new FlipFlop(address, destinations));
-                continue;
+            } else {
+                configuration.modules.put("broadcaster", new Broadcast(destinations));
             }
-
-            configuration.modules.put("broadcaster", new Broadcast(destinations));
         }
 
         for (String conjunction : conjunctions) {
@@ -78,9 +74,6 @@ public class ModuleConfiguration {
     }
 
     public long pressButtonUntilRx() {
-        // Find the repeating pattern for the pulses to the sources that point to rx
-        // Because this source is a Conjunction, we need to look at when all these sources give a high signal,
-        // so rx receives a low signal. We can use GCM for that
         Map<String, Long> cycles = new HashMap<>();
         String targetAddress = targets.get("rx").get(0);
 
@@ -91,13 +84,13 @@ public class ModuleConfiguration {
             while (!pulses.isEmpty()) {
                 Pulse pulse = pulses.remove(0);
 
+                if (pulse.destination().equals("rx")) {
+                    continue;
+                }
+
                 if (pulse.destination().equals(targetAddress) && pulse.signal()) {
                     var value = cycles.getOrDefault(pulse.source(), 0L);
                     cycles.put(pulse.source(), i - value);
-                }
-
-                if (pulse.destination().equals("rx")) {
-                    continue;
                 }
 
                 pulses.addAll(modules.get(pulse.destination()).receive(pulse.source(), pulse.signal()));
@@ -106,11 +99,6 @@ public class ModuleConfiguration {
             i++;
         }
 
-        return cycles.values().stream()
-                .reduce(1L, (a, b) -> (a * b) / gcd(a, b));
-    }
-
-    private long gcd(long a, long b) {
-        return b == 0 ? a : gcd(b, a % b);
+        return cycles.values().stream().reduce(1L, MathHelper::lcm);
     }
 }
