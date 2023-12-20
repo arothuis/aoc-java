@@ -40,7 +40,7 @@ public record Roadmap(String route, Map<String, List<String>> map) {
                 .reduce(1L, (a, b) -> (a * b) / gcd(a, b));
     }
 
-    public long gcd(long a, long b) {
+    private long gcd(long a, long b) {
         return b == 0 ? a : gcd(b, a % b);
     }
 }
