@@ -12,16 +12,15 @@ public class SolutionTest {
     @Test
     void exampleA() {
         var day = new Solution();
-        var solution = day.solveA(EXAMPLE_INPUT);
-        assertEquals(-1L, solution);
+        var solution = day.solveExampleA(EXAMPLE_INPUT);
+        assertEquals(16, solution);
     }
 
     @Test
     void solutionA() {
         var day = new Solution();
         var solution = day.solveA(PUZZLE_INPUT);
-
-        assertEquals(-1L, solution);
+        assertEquals(3689, solution);
     }
 
     @Test

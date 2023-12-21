@@ -2,7 +2,6 @@ package nl.arothuis.aoc.year2023.day20;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Broadcast implements Module {
     private final String address = "broadcaster";
