@@ -1,15 +1,9 @@
 package nl.arothuis.aoc.year2024.day01;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.function.IntFunction;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import com.google.common.collect.Streams;
 
 import nl.arothuis.aoc.core.PuzzleSolution;
