@@ -1,9 +1,12 @@
 package nl.arothuis.aoc.year2024.day02;
 
+import static java.lang.Integer.signum;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 import nl.arothuis.aoc.core.PuzzleSolution;
 
@@ -26,42 +29,25 @@ public class Solution implements PuzzleSolution<Long, Long> {
     }
 
     private boolean isSafe(List<Integer> report) {
-        int sign = 0;
+        return IntStream.range(1, report.size())
+                .parallel()
+                .allMatch(i -> {
+                    int diff = report.get(i) - report.get(i - 1);
 
-        for (int i = 1; i < report.size(); i++) {
-            int diff = report.get(i) - report.get(i - 1);
-            int nextSign = Integer.signum(diff);
-            int absDiff = Math.abs(diff);
-            
-            if (sign != 0 && sign != nextSign) {
-                return false;
-            }
-
-            if (absDiff < 1 || absDiff > 3) {
-                return false;
-            }
-
-            sign = nextSign;
-        }
-
-        return true;
+                    return Math.abs(diff) >= 1 && Math.abs(diff) <= 3 
+                        && (i == 1 || signum(diff) == signum(report.get(i - 1) - report.get(i - 2)));
+                });
     }
     
     public boolean isSafeWithCorrection(List<Integer> report) {
-        if (isSafe(report)) {
-            return true;
-        }
-
         // Optimize later ;)
-        for (int i = 0; i < report.size(); i++) {
-            List<Integer> corrected = new ArrayList<>(report);
-            corrected.remove(i);
-
-            if (isSafe(corrected)) {
-                return true;
-            }
-        }
-
-        return false;
+        return isSafe(report) 
+            || IntStream.range(0, report.size())
+                .parallel()
+                .anyMatch(i -> {
+                    List<Integer> corrected = new ArrayList<>(report);
+                    corrected.remove(i);
+                    return isSafe(corrected);
+                });
     }
 }
