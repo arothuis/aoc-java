@@ -30,6 +30,7 @@ public class Solution implements PuzzleSolution<Long, Long> {
 
     @Override
     public Long solveB(String input) {
+        // Generalize later ;)
         var removalPattern = Pattern.compile("don't\\(\\).+?do\\(\\)", Pattern.DOTALL);
         var removed = removalPattern.matcher(input).replaceAll("_");
 
