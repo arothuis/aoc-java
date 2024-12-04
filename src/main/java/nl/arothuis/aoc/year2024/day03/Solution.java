@@ -1,7 +1,5 @@
 package nl.arothuis.aoc.year2024.day03;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import nl.arothuis.aoc.core.PuzzleSolution;
@@ -9,20 +7,22 @@ import nl.arothuis.aoc.core.PuzzleSolution;
 public class Solution implements PuzzleSolution<Long, Long> {
     @Override
     public Long solveA(String input) {
-        var mulPattern = Pattern.compile("mul\\(\\d+,\\d+\\)");
-        var muls = mulPattern.matcher(input);
+        var muls = Pattern
+            .compile("mul\\(\\d+,\\d+\\)")
+            .matcher(input);
+        
         var result = 0L;
-
         while (muls.find()) {
-            var digitPattern = Pattern.compile("\\d+");
-            var digits = digitPattern.matcher(muls.group());
+            var digits = Pattern
+                .compile("\\d+")
+                .matcher(muls.group());
 
-            List<Long> values = new ArrayList<>();
+            var value = 1L;
             while (digits.find()) {
-                values.add(Long.valueOf(digits.group()));
+                value *= Long.valueOf(digits.group());
             }
 
-            result += values.stream().reduce(1L, (Long a, Long b) -> a * b);
+            result += value;
         }
 
         return result;
@@ -30,10 +30,10 @@ public class Solution implements PuzzleSolution<Long, Long> {
 
     @Override
     public Long solveB(String input) {
-        // Generalize later ;)
-        var removalPattern = Pattern.compile("don't\\(\\).+?do\\(\\)", Pattern.DOTALL);
-        var removed = removalPattern.matcher(input).replaceAll("_");
-
-        return solveA(removed);
+        return solveA(Pattern
+            .compile("don't\\(\\)[^d]*(?:do\\(\\))?", Pattern.DOTALL)
+            .matcher(input)
+            .replaceAll("_")
+        );
     }
 }

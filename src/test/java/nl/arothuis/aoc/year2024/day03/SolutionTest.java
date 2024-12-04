@@ -8,8 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SolutionTest {
     private final String PUZZLE_INPUT = PuzzleInput.getFromFile("2024", "03");
     private final String EXAMPLE_A = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
-    private final String EXAMPLE_B = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
-    
+    private final String EXAMPLE_B1 = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
+    private final String EXAMPLE_B2 = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)?mul(8,5))";
+
+
     @Test
     void exampleA() {
         var day = new Solution();
@@ -25,10 +27,17 @@ public class SolutionTest {
     }
 
     @Test
-    void exampleB() {
+    void exampleB1() {
         var day = new Solution();
-        var solution = day.solveB(EXAMPLE_B);
+        var solution = day.solveB(EXAMPLE_B1);
         assertEquals(48L, solution);
+    }
+
+    @Test
+    void exampleB2() {
+        var day = new Solution();
+        var solution = day.solveB(EXAMPLE_B2);
+        assertEquals(8L, solution);
     }
 
     @Test
