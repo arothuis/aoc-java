@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTest {
-    private final String PUZZLE_INPUT = PuzzleInput.getFromFile(YYYY, DD);
+    private final String PUZZLE_INPUT = PuzzleInput.getFromFile("YYYY", "DD");
 
     @Test
     void solutionA() {
