@@ -24,13 +24,16 @@ public class SolutionTest {
     }
 
     @Test
-    void solutionB() {
-        // Thoughts:
-        // - we need to place an obstacle, 
-        // - so that steps + direction will overlap with earlier steps + direction
+    void exampleB() {
+        var day = new Solution();
+        var solution = day.solveB(EXAMPLE_INPUT);
+        assertEquals(6L, solution);
+    }
 
+    @Test
+    void solutionB() {
         var day = new Solution();
         var solution = day.solveB(PUZZLE_INPUT);
-        assertEquals(-1L, solution);
+        assertEquals(1530L, solution);
     }
 }
