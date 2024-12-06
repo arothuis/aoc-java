@@ -38,9 +38,10 @@ public record Coordinates(long x, long y) {
     }
 
     public Coordinates rotateClockwise() {
-        return x == 0 && y == -1 ? eastwards()
-            : x == 1 && y == 0 ? southwards()
-            : x == 0 && y == 1 ? westwards()
+        // @TODO refactor Coordinates to Vector2D and create separate Direction record
+        return equals(northwards()) ? eastwards()
+            : equals(eastwards()) ? southwards()
+            : equals(southwards()) ? westwards()
             : northwards(); 
     }
 }

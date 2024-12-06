@@ -25,6 +25,15 @@ public class CoordinatesTest {
         );
     }
 
+    static Stream<Arguments> clockwiseRotationExamples() {
+        return Stream.of(
+            Arguments.of(Coordinates.northwards(), Coordinates.eastwards()),
+            Arguments.of(Coordinates.eastwards(), Coordinates.southwards()),
+            Arguments.of(Coordinates.southwards(), Coordinates.westwards()),
+            Arguments.of(Coordinates.westwards(), Coordinates.northwards())
+        );
+    }
+
     @Test
     @DisplayName("subtract other coordinates")
     void subtraction() {
@@ -70,5 +79,12 @@ public class CoordinatesTest {
         var result = a.isWithin(start, end);
 
         assertFalse(result);
+    }
+
+    @ParameterizedTest
+    @DisplayName("rotate direction clockwise")
+    @MethodSource("clockwiseRotationExamples")
+    void clockwiseRotation(Coordinates input, Coordinates expected) {
+        assertEquals(expected, input.rotateClockwise());
     }
 }
