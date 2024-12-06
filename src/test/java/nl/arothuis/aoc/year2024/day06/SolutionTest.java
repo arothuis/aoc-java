@@ -26,9 +26,11 @@ public class SolutionTest {
     @Test
     void solutionB() {
         // Thoughts:
-        // - we need to place an obstacle, 
+        // - we need to place an obstacle
         // - so that steps + direction will overlap with earlier steps + direction
-
+        // - while traversing, we can create candidate lanes to hook into
+        //   look behind you when starting, look left when turning
+        // 339 too low
         var day = new Solution();
         var solution = day.solveB(PUZZLE_INPUT);
         assertEquals(-1L, solution);
