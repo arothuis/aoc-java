@@ -36,4 +36,11 @@ public record Coordinates(long x, long y) {
     public Coordinates inverse() {
         return new Coordinates(-x, -y);
     }
+
+    public Coordinates rotateClockwise() {
+        return x == 0 && y == -1 ? eastwards()
+            : x == 1 && y == 0 ? southwards()
+            : x == 0 && y == 1 ? westwards()
+            : northwards(); 
+    }
 }
