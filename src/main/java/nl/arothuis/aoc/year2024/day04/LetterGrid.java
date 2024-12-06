@@ -39,7 +39,6 @@ public final class LetterGrid {
     }
 
     final private Long match(String candidate, String target) {
-        System.out.println(candidate);
         return Set.of(target, new StringBuilder(target).reverse().toString())
             .contains(candidate) ? 1L : 0L;
     }
